@@ -1,0 +1,1 @@
+The files located here are not required if you are using the DefaultKeyBinding.dict

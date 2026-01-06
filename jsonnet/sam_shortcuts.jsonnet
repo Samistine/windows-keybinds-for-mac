@@ -28,49 +28,30 @@ local unless_remoteDesktop_hypervisor = k.condition(
 // MAIN //
 //------//
 
+// Title Comments:
+// [SAFE-0] These rules do not overide any shortcuts.
+// [SAFE-1] These rules do not overide any shortcuts included in MAC.
+// [SAFE-3] If any behavior is overiden, it is not required behavior for any expected use case.
+
+// Rule Comments:
+// [WIN] = Windows description of task
+// [MAC] = Mac description of task (for new output)
+// [MAC OVERRIDEN] Mac description of original task that is no longer in affect
+
 {
-  title: 'Windows Shortcuts',
+  title: 'Windows Shortcuts (Basic Copying/Cutting/Pasting)',
   rules: [
-    k.rule('Insert (Ctrl)',
+    /*k.rule('Insert (Ctrl) [Copy]',
            k.input('insert', ['control']),
            k.outputKey('c', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('Insert (Shift)',
+    k.rule('Insert (Shift) [Copy]',
            k.input('insert', ['shift']),
            k.outputKey('v', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('Home (Ctrl+Shift)',
-           k.input('home', ['control', 'shift']),
-           k.outputKey('up_arrow', ['command', 'shift']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('Home (Shift)',
-           k.input('home', ['shift']),
-           k.outputKey('left_arrow', ['command', 'shift']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('Home (Ctrl)',
-           k.input('home', ['control']),
-           k.outputKey('up_arrow', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('Home',
-           k.input('home'),
-           k.outputKey('left_arrow', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('End (Ctrl+Shift)',
-           k.input('end', ['control', 'shift']),
-           k.outputKey('down_arrow', ['command', 'shift']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('End (Shift)',
-           k.input('end', ['shift']),
-           k.outputKey('right_arrow', ['command', 'shift']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('End (Ctrl)',
-           k.input('end', ['control']),
-           k.outputKey('down_arrow', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('End',
-           k.input('end'),
-           k.outputKey('right_arrow', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
+           unless_hypervisor_ide_remoteDesktop_terminalEmulator),*/
+
+    // Moved Home and End keys to DefaultKeyBinding.dict
+
     k.rule('Left Arrow (Ctrl)',
            k.input('left_arrow', ['control']),
            k.outputKey('left_arrow', ['option']),
@@ -96,136 +77,87 @@ local unless_remoteDesktop_hypervisor = k.condition(
            k.input('delete_forward', ['control']),
            k.outputKey('delete_forward', ['option']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('Enter (Ctrl)',
+
+    // Not sure what this is for, excel should work fine with ctrl+shift+enter
+    /*k.rule('Enter (Ctrl)',
            k.input('return_or_enter', ['control']),
            k.outputKey('return_or_enter', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
     k.rule('Enter (Ctrl+Shift)',
            k.input('return_or_enter', ['control', 'shift']),
            k.outputKey('return_or_enter', ['command', 'shift']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
+           unless_hypervisor_ide_remoteDesktop_terminalEmulator),*/
 
-    k.rule('A (Ctrl)',
-           k.input('a', ['control']),
-           k.outputKey('a', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('B (Ctrl)',
+    // Moved Ctrl-A to DefaultKeyBinding.dict
+
+    /*k.rule('B (Ctrl) [Bold]',
            k.input('b', ['control']),
            k.outputKey('b', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('C (Ctrl)',
-           k.input('c', ['left_control']),
-           k.outputKey('c', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('F (Ctrl)',
+           unless_hypervisor_ide_remoteDesktop_terminalEmulator),*/
+
+    // Moved Ctrl-C to DefaultKeyBinding.dict
+
+    k.rule('F (Ctrl) [Find]',
            k.input('f', ['control']),
            k.outputKey('f', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('I (Ctrl)',
+           
+    /*k.rule('I (Ctrl) [Italics]',
            k.input('i', ['control']),
            k.outputKey('i', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('N (Ctrl)',
+           unless_hypervisor_ide_remoteDesktop_terminalEmulator),*/
+    k.rule('N (Ctrl) [New Item]',
            k.input('n', ['control']),
            k.outputKey('n', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('O (Ctrl)',
+    k.rule('O (Ctrl) [Open]',
            k.input('o', ['control']),
            k.outputKey('o', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('P (Ctrl)',
+    k.rule('P (Ctrl) [Print]',
            k.input('p', ['control']),
            k.outputKey('p', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('R (Ctrl)',
+    k.rule('R (Ctrl) [Refresh]',
            k.input('r', ['control']),
            k.outputKey('r', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('S (Ctrl)',
+    k.rule('S (Ctrl) [Save]',
            k.input('s', ['control']),
            k.outputKey('s', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('T (Ctrl)',
+    k.rule('T (Ctrl) [New Tab]',
            k.input('t', ['control']),
            k.outputKey('t', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('U (Ctrl)',
+    k.rule('U (Ctrl) [Underline]',
            k.input('u', ['control']),
            k.outputKey('u', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('V (Ctrl)',
-           k.input('v', ['control']),
-           k.outputKey('v', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('W (Ctrl)',
+    // Moved Ctrl-V to DefaultKeyBinding.dict
+    k.rule('W (Ctrl) [Close Tab]',
            k.input('w', ['control']),
            k.outputKey('w', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('X (Ctrl)',
-           k.input('x', ['control']),
-           k.outputKey('x', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('Y (Ctrl)',
-           k.input('y', ['control']),
-           k.outputKey('y', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('Z (Ctrl)',
-           k.input('z', ['control']),
-           k.outputKey('z', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
+    // Moved Ctrl-X to DefaultKeyBinding.dict
+    // Moved Ctrl-Y to DefaultKeyBinding.dict
+    // Moved Ctrl-Z to DefaultKeyBinding.dict
 
-    k.rule('Space (Ctrl)',
+    /*k.rule('Space (Ctrl) [Spotlight Search]',
            k.input('spacebar', ['control']),
            k.outputKey('spacebar', ['command']),
-           unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('F1',
+           unless_hypervisor_ide_remoteDesktop_terminalEmulator),*/
+    k.rule('F1 [Help]',
            k.input('f1'),
            k.outputKey('slash', ['command', 'shift']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
-    k.rule('F3',
+    k.rule('F3 [Find Next]',
            k.input('f3'),
            k.outputKey('g', ['command']),
            unless_hypervisor_ide_remoteDesktop_terminalEmulator),
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    k.rule('1 (Cmd) [Open first pinned Dock app (Finder); +IDEs and Terminal Emulators]',
-           k.input('1', ['command']),
-           k.outputShell('open -b com.apple.finder'),
-           unless_remoteDesktop_hypervisor),
-    k.rule('2 (Cmd) [Open second pinned Dock app; +IDEs and Terminal Emulators]',
-           k.input('2', ['command']),
-           k.runDockedApp('0'),
-           unless_remoteDesktop_hypervisor),
-    k.rule('3 (Cmd) [Open third pinned Dock app; +IDEs and Terminal Emulators]',
-           k.input('3', ['command']),
-           k.runDockedApp('1'),
-           unless_remoteDesktop_hypervisor),
-    k.rule('4 (Cmd) [Open fourth pinned Dock app; +IDEs and Terminal Emulators]',
-           k.input('4', ['command']),
-           k.runDockedApp('2'),
-           unless_remoteDesktop_hypervisor),
-    k.rule('5 (Cmd) [Open fifth pinned Dock app; +IDEs and Terminal Emulators]',
-           k.input('5', ['command']),
-           k.runDockedApp('3'),
-           unless_remoteDesktop_hypervisor),
-    k.rule('6 (Cmd) [Open sixth pinned Dock app; +IDEs and Terminal Emulators]',
-           k.input('6', ['command']),
-           k.runDockedApp('4'),
-           unless_remoteDesktop_hypervisor),
-    k.rule('7 (Cmd) [Open seventh pinned Dock app; +IDEs and Terminal Emulators]',
-           k.input('7', ['command']),
-           k.runDockedApp('5'),
-           unless_remoteDesktop_hypervisor),
-    k.rule('8 (Cmd) [Open eighth pinned Dock app; +IDEs and Terminal Emulators]',
-           k.input('8', ['command']),
-           k.runDockedApp('6'),
-           unless_remoteDesktop_hypervisor),
-    k.rule('9 (Cmd) [Open ninth pinned Dock app; +IDEs and Terminal Emulators]',
-           k.input('9', ['command']),
-           k.runDockedApp('7'),
-           unless_remoteDesktop_hypervisor),
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    k.rule('Win [Open Spotlight] [Always]',
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+    /*k.rule('Win [Open Spotlight] [Always]',
            k.input('left_command', key_is_modifier=true),
            [
              k.outputKey('left_command', output_type='to'),
@@ -242,7 +174,7 @@ local unless_remoteDesktop_hypervisor = k.condition(
            k.outputKey('q', ['control', 'command'])),
     k.rule('L (Alt+Ctrl) [Sleep] [Always]',
            k.input('l', ['control', 'option']),
-           k.outputKey('power', ['control', 'shift'])),
+           k.outputKey('power', ['control', 'shift'])),*/
     ////////////////////////////////////////////////////////////////////////////////////////////////
     k.rule('Insert (Ctrl) [+Terminal Emulators]',
            k.input('insert', ['control']),
@@ -292,5 +224,51 @@ local unless_remoteDesktop_hypervisor = k.condition(
            k.input('tab', ['option']),
            k.outputKey('tab', ['command']),
            k.condition('unless', bundle.hypervisors + bundle.remoteDesktops, file_paths.remoteDesktops)),
+
+
+    // IDE rules
+    // Selecting/Copying/Cutting/Pasting
+    k.rule('A (Ctrl) [Select All]',
+           k.input('a', ['control']),
+           k.outputKey('a', ['command']),
+           bundle.ides),
+    k.rule('C (Ctrl) [Copy]',
+           k.input('c', ['left_control']),
+           k.outputKey('c', ['command']),
+           bundle.ides),
+    k.rule('V (Ctrl) [Paste]',
+           k.input('v', ['control']),
+           k.outputKey('v', ['command']),
+           bundle.ides),
+    k.rule('X (Ctrl) [Cut]',
+           k.input('x', ['control']),
+           k.outputKey('x', ['command']),
+           bundle.ides),
+
+    // Undo/Redo(with shift)
+    k.rule('Z (Ctrl) [Undo/Redo]',
+           k.input('z', ['control']),
+           k.outputKey('z', ['command']),
+           bundle.ides),
+
+    // Redo
+    k.rule('Y (Ctrl) [Redo]',
+           k.input('y', ['control']),
+           k.outputKey('y', ['command']),
+           bundle.ides),
+
+    // Find
+    k.rule('F (Ctrl)',
+           k.input('f', ['control']),
+           k.outputKey('f', ['command']),
+           bundle.ides),
+
+    // Everywhere rules
+    k.rule('Home',
+           k.input('home'),
+           k.outputKey('left_arrow', ['command']),),
+    k.rule('End',
+           k.input('end'),
+           k.outputKey('right_arrow', ['command']),),
   ],
 }
