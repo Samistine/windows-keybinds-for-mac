@@ -14,7 +14,7 @@ local unless_hypervisor_ide_remoteDesktop_terminalEmulator = k.condition(
 
 local unless_hypervisor_remoteDesktop_terminalEmulator = k.condition(
   'unless',
-  bundle.hypervisors + bundle.ides + bundle.remoteDesktops + bundle.terminalEmulators,
+  bundle.hypervisors + bundle.remoteDesktops + bundle.terminalEmulators,
   file_paths.remoteDesktops
 );
 
@@ -30,12 +30,42 @@ local unless_remoteDesktop_hypervisor = k.condition(
   file_paths.remoteDesktops
 );
 
-local not_builtin_keyboard = {
-  "type": "device_if",
-  "identifiers": [
-    { "is_built_in_keyboard": false }
-  ]
+local fConditions = {
+  "conditions": [{
+    "bundle_identifiers": [
+      "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+      "^com\\.parallels\\.desktop\\.console$",
+      "^org\\.vmware\\.fusion$",
+      "^org\\.gnu\\.emacs$",
+      "^org\\.gnu\\.Emacs$",
+      "^com\\.jetbrains",
+      "^com\\.microsoft\\.VSCode$",
+      "^com\\.vscodium$",
+      "^com\\.sublimetext\\.3$",
+      "^net\\.kovidgoyal\\.kitty$",
+      "^com\\.ScooterSoftware",
+      "^dev\\.zed\\.Zed$",
+      "^com\\.citrix\\.XenAppViewer$",
+      "^com\\.microsoft\\.rdc\\.macos$",
+      "^com\\.alacritty$",
+      "^io\\.alacritty$",
+      "^co\\.zeit\\.hyper$",
+      "^com\\.googlecode\\.iterm2$",
+      "^com\\.apple\\.Terminal$",
+      "^com\\.github\\.wez\\.wezterm$",
+      "^com\\.mitchellh\\.ghostty$"
+    ],
+    "file_paths": [
+      "Chrome Remote Desktop\\.app"
+    ],
+    "type": "frontmost_application_unless"
+  },
+  {
+    "type": "device_if",
+    "identifiers": [{ "is_built_in_keyboard": false }]
+  }]
 };
+
 
 //------//
 // MAIN //
@@ -128,14 +158,55 @@ local not_builtin_keyboard = {
            k.input('end'),
            k.outputKey('right_arrow', ['command']),),
 
-    k.rule('F1 [Help] {unless_hypervisor_ide_remoteDesktop_terminalEmulator}',
-           k.input('f1'),
-           k.outputKey('slash', ['command', 'shift']),
-           [unless_hypervisor_ide_remoteDesktop_terminalEmulator, not_builtin_keyboard]),
-    k.rule('F3 [Find Next] {unless_hypervisor_ide_remoteDesktop_terminalEmulator}',
-           k.input('f3'),
-           k.outputKey('g', ['command']),
-           [unless_hypervisor_ide_remoteDesktop_terminalEmulator, not_builtin_keyboard]),
+      {
+         "description": "F1 [Help] {unless_hypervisor_ide_remoteDesktop_terminalEmulator}",
+         "manipulators": [
+            {
+               "from": {
+                  "key_code": "f1",
+                  "modifiers": {
+                     "optional": [
+                        "any"
+                     ]
+                  }
+               },
+               "to": [
+                  {
+                     "key_code": "slash",
+                     "modifiers": [
+                        "command",
+                        "shift"
+                     ]
+                  }
+               ],
+               "type": "basic"
+            } + fConditions
+         ]
+      },
+      {
+         "description": "F3 [Find Next] {unless_hypervisor_ide_remoteDesktop_terminalEmulator}",
+         "manipulators": [
+            {
+               "from": {
+                  "key_code": "f3",
+                  "modifiers": {
+                     "optional": [
+                        "any"
+                     ]
+                  }
+               },
+               "to": [
+                  {
+                     "key_code": "g",
+                     "modifiers": [
+                        "command"
+                     ]
+                  }
+               ],
+               "type": "basic"
+            } + fConditions
+         ]
+      },
 
     k.rule('Left Arrow (Ctrl)',
            k.input('left_arrow', ['control']),
@@ -205,7 +276,7 @@ local not_builtin_keyboard = {
     k.rule('F4 (Alt) [+Terminal Emulators]',
            k.input('f4', ['option']),
            k.outputKey('q', ['command']),
-           [unless_hypervisor_ide_remoteDesktop, not_builtin_keyboard]),
+           unless_hypervisor_ide_remoteDesktop),
     ////////////////////////////////////////////////////////////////////////////////////////////////
     k.rule('C (Ctrl+Shift) [Only Terminal Emulators]',
            k.input('c', ['control', 'shift']),
