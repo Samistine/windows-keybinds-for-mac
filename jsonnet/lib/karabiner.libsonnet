@@ -17,7 +17,7 @@
   // condition (object, optional)
   //   condition for a trigger; use condition()
   rule(description, input, output, condition=null):: {
-    description: description,
+    description: description + if condition == null then " {*}" else "",
     manipulators: [
       {
         from: input,
